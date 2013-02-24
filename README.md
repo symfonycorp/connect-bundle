@@ -42,7 +42,7 @@ Enable the bundle in the kernel:
 ### Step 3: Configure your `config.yml` file
 
     # app/config/config.yml
-    sensio_labs_connect:
+    sensiolabs_connect:
         app_id:     Your app ip
         app_secret: Your app secret
         scope:      Your app scope # SCOPE_EMAIL SCOPE_PUBLIC
