@@ -18,26 +18,13 @@
     </parameters>
 
     <services>
+        <!-- Security -->
         <service id="sensiolabs_connect.oauth_consumer" class="%sensiolabs_connect.oauth_consumer.class%">
             <argument /> <!-- app id -->
             <argument /> <!-- app secret -->
             <argument /> <!-- app scope -->
             <argument /> <!-- oauth endpoint -->
             <argument type="service" id="sensiolabs_connect.buzz" />
-            <argument type="service" id="logger" on-invalid="null" />
-            <tag name="monolog.logger" channel="sensiolabs_connect" />
-        </service>
-
-        <service id="sensiolabs_connect.api.parser" class="%sensiolabs_connect.api.parser.class%">
-        </service>
-
-        <service id="sensiolabs_connect.error_translator" class="%sensiolabs_connect.error_translator.class%">
-        </service>
-
-        <service id="sensiolabs_connect.api" class="%sensiolabs_connect.api.class%">
-            <argument /> <!-- api endpoint -->
-            <argument type="service" id="sensiolabs_connect.buzz" />
-            <argument type="service" id="sensiolabs_connect.api.parser" />
             <argument type="service" id="logger" on-invalid="null" />
             <tag name="monolog.logger" channel="sensiolabs_connect" />
         </service>
@@ -77,6 +64,24 @@
             <argument type="service" id="security.authentication.entry_point.sensiolabs_connect" />
         </service>
 
+        <!-- Parser -->
+        <service id="sensiolabs_connect.api.parser" class="%sensiolabs_connect.api.parser.class%">
+        </service>
+
+        <!-- Helper -->
+        <service id="sensiolabs_connect.error_translator" class="%sensiolabs_connect.error_translator.class%">
+        </service>
+
+        <!-- Api -->
+        <service id="sensiolabs_connect.api" class="%sensiolabs_connect.api.class%">
+            <argument /> <!-- api endpoint -->
+            <argument type="service" id="sensiolabs_connect.buzz" />
+            <argument type="service" id="sensiolabs_connect.api.parser" />
+            <argument type="service" id="logger" on-invalid="null" />
+            <tag name="monolog.logger" channel="sensiolabs_connect" />
+        </service>
+
+        <!-- Browser -->
         <service id="sensiolabs_connect.buzz.message_factory" class="Buzz\Message\Factory\Factory" public="false" />
         <service id="sensiolabs_connect.buzz.client" class="Buzz\Client\Curl" public="false" />
         <service id="sensiolabs_connect.buzz" class="Buzz\Browser" public="false">
