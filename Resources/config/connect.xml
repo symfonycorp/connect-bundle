@@ -88,5 +88,10 @@
             <argument type="service" id="sensiolabs_connect.buzz.client" />
             <argument type="service" id="sensiolabs_connect.buzz.message_factory" />
         </service>
+
+        <!-- Collector -->
+        <service id="sensiolabs_connect.collector.api" class="SensioLabs\Bundle\ConnectBundle\Collector\ApiCollector">
+            <tag name="data_collector" id="sensiolabs_connect" template="SensioLabsConnectBundle:Collector:connect"/>
+        </service>
     </services>
 </container>
