@@ -142,7 +142,7 @@ Cookbooks
     use Symfony\Component\Security\Core\User\UserInterface;
 
     /**
-     * @ORM\Table()
+     * @ORM\Table(name="sl_user")
      * @ORM\Entity(repositoryClass="Sensiolabs\Bundle\HowToBundle\Repository\UserRepository")
      */
     class User implements UserInterface
