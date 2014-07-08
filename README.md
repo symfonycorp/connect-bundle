@@ -70,6 +70,7 @@ If you don't want to persist your users, you can use `ConnectInMemoryUserProvide
                 sensiolabs_connect:
                     check_path: oauth_callback
                     login_path: sensiolabs_connect_new_session
+                    failure_path: homepage # need to be adapted to your config, see step 5
                     remember_me: false
                     provider: sensiolabs_connect
                 anonymous: true
@@ -125,6 +126,84 @@ directly:
 
     $api = $this->get('sensiolabs_connect.api');
     $user = $api->getRoot()->getCurrentUser();
+
+#### Step 5: Handling Failures
+
+> **Note**: this feature requires `sensiolabs/connect` `v3.0.0`
+
+Several errors can occurred during the OAuth dance, for example the user can
+deny your application or the scope you defined in `config.yml` can be different
+from what you selected while creating your application on SensioLabsConnect.
+Theses failures need to be handled.
+
+Since `sensiolabs/connect` `v3.0.0`, failures handling is restored to the default
+Symfony failure handling.
+
+Therefore, if an error occurred, the error is stored in the session (with a
+fallback on query attributes) and the user is redirected to the route/path
+specificed in `failure_path` node of the `sensiolabs_connect` section of your
+firewall in `security.yml`.
+
+> **Warning**: You **need** to specifiy `failure_path`. If you don't, the user
+> will be redirected back to `login_path`, meaning that will launch the
+> SensioLabsConnect authentication and redirect the user to SensioLabsConnect
+> which can lead to a redirection loop.
+
+This means you need to fetch the authencation error if there is one and display
+it in the view. This is similar to what you do for a typical login form on
+Symfony2 (here we assume you have a `homepage` routing pointing to the
+`AcmeWebsiteBundle:Default:homepage` controller):
+
+```php
+// src/Acme/Bundle/WebsiteBundle/Controller/DefaultController.php
+
+namespace Acme\WebsiteBundle\Controller;
+
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\SecurityContextInterface;
+
+class DefaultController extends Controller
+{
+    public function homepageAction(Request $request)
+    {
+        $session = $request->getSession();
+
+        // get the authentication error if there is one
+        if ($request->attributes->has(SecurityContextInterface::AUTHENTICATION_ERROR)) {
+            $error = $request->attributes->get(
+                SecurityContextInterface::AUTHENTICATION_ERROR
+            );
+        } elseif (null !== $session && $session->has(SecurityContextInterface::AUTHENTICATION_ERROR)) {
+            $error = $session->get(SecurityContextInterface::AUTHENTICATION_ERROR);
+            $session->remove(SecurityContextInterface::AUTHENTICATION_ERROR);
+        } else {
+            $error = '';
+        }
+
+        return $this->render(
+            'AcmeWebsiteBundleBundle:Default:homepage.html.twig',
+            array(
+                'error' => $error,
+            )
+        );
+    }
+}
+```
+
+And then adapt your twig template:
+
+```twig
+{# src/Acme/Bundle/WebsiteBundle/Resources/views/Default/homepage.html.twig #}
+
+{% if app.user %}
+    Congrats! You are authenticated with SensioLabsConnect
+{% elseif error %}
+    {{ error.messageKey | trans(error.messageData, 'security') }}
+{% else %}
+    <a href="{{ url('sensiolabs_connect_new_session') }}">Connect with SensioLabsConnect</a>
+{% endif %}
+```
 
 Cookbooks
 ---------

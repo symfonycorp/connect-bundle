@@ -88,17 +88,4 @@ class ConnectFactory extends AbstractFactory
 
         return $entryPoint;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function createAuthenticationFailureHandler($container, $id, $config)
-    {
-        $id = 'security.authentication.failure_handler.sensiolabs_connect.'.$id;
-        $container
-            ->setDefinition($id, new DefinitionDecorator('security.authentication.failure_handler.sensiolabs_connect'))
-        ;
-
-        return $id;
-    }
 }
