@@ -70,6 +70,7 @@ If you don't want to persist your users, you can use `ConnectInMemoryUserProvide
                 sensiolabs_connect:
                     check_path: oauth_callback
                     login_path: sensiolabs_connect_new_session
+                    failure_path: homepage
                     remember_me: false
                     provider: sensiolabs_connect
                 anonymous: true
