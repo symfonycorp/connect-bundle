@@ -11,7 +11,7 @@ class ApiPass implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         if ($container->getParameter('kernel.debug')) {
-            $container->getDefinition('sensiolabs_connect.buzz')->addMethodCall('addListener', array(new Reference('sensiolabs_connect.collector.api')));
+            $container->getDefinition('sensiolabs_connect.guzzle')->addMethodCall('addSubscriber', array(new Reference('sensiolabs_connect.collector.api')));
         }
     }
 }

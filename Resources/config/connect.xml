@@ -24,7 +24,7 @@
             <argument /> <!-- app secret -->
             <argument /> <!-- app scope -->
             <argument /> <!-- oauth endpoint -->
-            <argument type="service" id="sensiolabs_connect.buzz" />
+            <argument type="service" id="sensiolabs_connect.guzzle" />
             <argument type="service" id="logger" on-invalid="null" />
             <tag name="monolog.logger" channel="sensiolabs_connect" />
         </service>
@@ -75,22 +75,19 @@
         <!-- Api -->
         <service id="sensiolabs_connect.api" class="%sensiolabs_connect.api.class%">
             <argument /> <!-- api endpoint -->
-            <argument type="service" id="sensiolabs_connect.buzz" />
+            <argument type="service" id="sensiolabs_connect.guzzle" />
             <argument type="service" id="sensiolabs_connect.api.parser" />
             <argument type="service" id="logger" on-invalid="null" />
             <tag name="monolog.logger" channel="sensiolabs_connect" />
         </service>
 
-        <!-- Browser -->
-        <service id="sensiolabs_connect.buzz.message_factory" class="Buzz\Message\Factory\Factory" public="false" />
-        <service id="sensiolabs_connect.buzz.client" class="Buzz\Client\Curl" public="false" />
-        <service id="sensiolabs_connect.buzz" class="Buzz\Browser" public="false">
-            <argument type="service" id="sensiolabs_connect.buzz.client" />
-            <argument type="service" id="sensiolabs_connect.buzz.message_factory" />
-        </service>
+        <!-- HTTP client -->
+        <service id="sensiolabs_connect.guzzle" class="Guzzle\Http\Client" public="false"/>
 
         <!-- Collector -->
+        <service id="sensiolabs_connect.guzzle.plugin_history" class="Guzzle\Plugin\History\HistoryPlugin" public="false" />
         <service id="sensiolabs_connect.collector.api" class="SensioLabs\Bundle\ConnectBundle\Collector\ApiCollector">
+            <argument type="service" id="sensiolabs_connect.guzzle.plugin_history" />
             <tag name="data_collector" id="sensiolabs_connect" template="SensioLabsConnectBundle:Collector:connect"/>
         </service>
     </services>
