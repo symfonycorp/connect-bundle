@@ -131,15 +131,28 @@ directly:
 
 > **Note**: this feature requires `sensiolabs/connect` `v3.0.0`
 
-Several errors can occurred during the OAuth dance, for example the user can deny your application or the scope you defined in `config.yml` can be different from what your selected while creating your application on SensioLabsConnect. Theses failures need to be handled.
+Several errors can occurred during the OAuth dance, for example the user can
+deny your application or the scope you defined in `config.yml` can be different
+from what your selected while creating your application on SensioLabsConnect.
+Theses failures need to be handled.
 
-Since `sensiolabs/connect` `v3.0.0`, failures handling is restored to the default Symfony failure handling.
+Since `sensiolabs/connect` `v3.0.0`, failures handling is restored to the default
+Symfony failure handling.
 
-Therefore, if an error occurred, the error is stored in the session (with a fallback on query string) and the user is redirected to the route/path specificed in `failure_path` node of the `sensiolabs_connect` section of your firewall in `security.yml`.
+Therefore, if an error occurred, the error is stored in the session (with a
+fallback on query string) and the user is redirected to the route/path
+specificed in `failure_path` node of the `sensiolabs_connect` section of your
+firewall in `security.yml`.
 
-> **Warning**: You **need** to specifiy `failure_path`. If you don't, the user will be redirected back to `login_path`, meaning that will launch the SensioLabsConnect authentication and redirect the user to SensioLabsConnect which can lead to a redirection loop.
+> **Warning**: You **need** to specifiy `failure_path`. If you don't, the user
+> will be redirected back to `login_path`, meaning that will launch the
+> SensioLabsConnect authentication and redirect the user to SensioLabsConnect
+> which can lead to a redirection loop.
 
-This means you need to fetch the authencation error if there is one and display it in the view. This is similar to what you do for a typical login form on Symfony2 (here we assume you have a `homepage` routing pointing to the `AcmeWebsiteBundle:Default:homepage` controller):
+This means you need to fetch the authencation error if there is one and display
+it in the view. This is similar to what you do for a typical login form on
+Symfony2 (here we assume you have a `homepage` routing pointing to the
+`AcmeWebsiteBundle:Default:homepage` controller):
 
 ```php
 // src/Acme/Bundle/WebsiteBundle/Controller/DefaultController.php
