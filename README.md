@@ -133,7 +133,7 @@ directly:
 
 Several errors can occurred during the OAuth dance, for example the user can
 deny your application or the scope you defined in `config.yml` can be different
-from what your selected while creating your application on SensioLabsConnect.
+from what you selected while creating your application on SensioLabsConnect.
 Theses failures need to be handled.
 
 Since `sensiolabs/connect` `v3.0.0`, failures handling is restored to the default
