@@ -140,7 +140,7 @@ Since `sensiolabs/connect` `v3.0.0`, failures handling is restored to the defaul
 Symfony failure handling.
 
 Therefore, if an error occurred, the error is stored in the session (with a
-fallback on query string) and the user is redirected to the route/path
+fallback on query attributes) and the user is redirected to the route/path
 specificed in `failure_path` node of the `sensiolabs_connect` section of your
 firewall in `security.yml`.
 
