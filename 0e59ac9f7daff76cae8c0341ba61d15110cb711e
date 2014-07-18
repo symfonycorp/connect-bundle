@@ -1,0 +1,19 @@
+---------------------------------------------------------------------------
+
+by lyrixx at 2014-07-08T16:43:55Z
+
+> @lyrixx Maybe a entry in the doc explaining how displaying authentication errors is now necessary?
+
+If you could do so, You are going to be legen...dary ;)
+
+---------------------------------------------------------------------------
+
+by tucksaun at 2014-07-09T10:31:53Z
+
+@lyrixx doc added ;) (I supposed the fix in `sensiolabs/connect` would be released in the v3.0)
+
+---------------------------------------------------------------------------
+
+by tucksaun at 2014-07-10T22:37:39Z
+
+https://github.com/sensiolabs/Silex-Connect needs update too
