@@ -34,6 +34,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('oauth_callback_path')->defaultValue('/session/callback')->end()
                 ->scalarNode('oauth_endpoint')->defaultValue('https://connect.sensiolabs.com')->end()
                 ->scalarNode('api_endpoint')->defaultValue('https://connect.sensiolabs.com/api')->end()
+                ->scalarNode('timeout')->defaultValue(5)->end()
             ->end()
         ;
 
