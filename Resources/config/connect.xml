@@ -84,8 +84,9 @@
         <!-- HTTP client -->
         <service id="sensiolabs_connect.guzzle" class="Guzzle\Http\Client" public="false"/>
 
+        <service id="sensiolabs_connect.guzzle.plugin_history" class="Guzzle\Plugin\History\HistoryPlugin" />
+
         <!-- Collector -->
-        <service id="sensiolabs_connect.guzzle.plugin_history" class="Guzzle\Plugin\History\HistoryPlugin" public="false" />
         <service id="sensiolabs_connect.collector.api" class="SensioLabs\Connect\Profiler\ConnectDataCollector">
             <argument type="service" id="sensiolabs_connect.guzzle.plugin_history" />
             <tag name="data_collector" id="connect-sdk" template="@ConnectSDK/Collector/connect-sdk.html.twig"/>
