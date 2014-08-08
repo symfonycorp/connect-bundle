@@ -86,7 +86,7 @@
 
         <!-- Collector -->
         <service id="sensiolabs_connect.guzzle.plugin_history" class="Guzzle\Plugin\History\HistoryPlugin" public="false" />
-        <service id="sensiolabs_connect.collector.api" class="SensioLabs\Bundle\ConnectBundle\Collector\ApiCollector">
+        <service id="sensiolabs_connect.collector.api" class="SensioLabs\Connect\Profiler\ConnectDataCollector">
             <argument type="service" id="sensiolabs_connect.guzzle.plugin_history" />
             <tag name="data_collector" id="sensiolabs_connect" template="SensioLabsConnectBundle:Collector:connect"/>
         </service>
