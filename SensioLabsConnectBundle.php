@@ -12,6 +12,7 @@
 namespace SensioLabs\Bundle\ConnectBundle;
 
 use SensioLabs\Bundle\ConnectBundle\DependencyInjection\CompilerPass\ApiPass;
+use SensioLabs\Bundle\ConnectBundle\DependencyInjection\CompilerPass\TwigPass;
 use SensioLabs\Bundle\ConnectBundle\DependencyInjection\Security\Factory\ConnectFactory;
 use SensioLabs\Bundle\ConnectBundle\DependencyInjection\Security\UserProvider\ConnectInMemoryFactory;
 use Symfony\Component\DependencyInjection\Compiler\PassConfig;
@@ -30,5 +31,6 @@ class SensioLabsConnectBundle extends Bundle
         $container->getExtension('security')->addSecurityListenerFactory(new ConnectFactory());
         $container->getExtension('security')->addUserProviderFactory(new ConnectInMemoryFactory());
         $container->addCompilerPass(new ApiPass(), PassConfig::TYPE_AFTER_REMOVING);
+        $container->addCompilerPass(new TwigPass());
     }
 }

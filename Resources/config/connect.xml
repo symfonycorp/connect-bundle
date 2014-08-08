@@ -29,7 +29,7 @@
             <tag name="monolog.logger" channel="sensiolabs_connect" />
         </service>
 
-       <service id="security.authentication.listener.sensiolabs_connect" class="%security.authentication.listener.sensiolabs_connect.class%" parent="security.authentication.listener.abstract" abstract="true">
+        <service id="security.authentication.listener.sensiolabs_connect" class="%security.authentication.listener.sensiolabs_connect.class%" parent="security.authentication.listener.abstract" abstract="true">
             <call method="setOAuthConsumer">
                 <argument type="service" id="sensiolabs_connect.oauth_consumer" />
             </call>
@@ -39,12 +39,12 @@
             <call method="setApi">
                 <argument type="service" id="sensiolabs_connect.api" />
             </call>
-       </service>
+        </service>
 
-       <service id="security.authentication.provider.sensiolabs_connect" class="%security.authentication.provider.sensiolabs_connect.class%" abstract="true">
-           <argument /> <!-- user provider -->
-           <argument /> <!-- providerKey -->
-       </service>
+        <service id="security.authentication.provider.sensiolabs_connect" class="%security.authentication.provider.sensiolabs_connect.class%" abstract="true">
+            <argument /> <!-- user provider -->
+            <argument /> <!-- providerKey -->
+        </service>
 
         <service id="security.authentication.entry_point.sensiolabs_connect" class="%security.authentication.entry_point.sensiolabs_connect.class%">
             <argument type="service" id="sensiolabs_connect.oauth_consumer" />
@@ -88,7 +88,7 @@
         <service id="sensiolabs_connect.guzzle.plugin_history" class="Guzzle\Plugin\History\HistoryPlugin" public="false" />
         <service id="sensiolabs_connect.collector.api" class="SensioLabs\Connect\Profiler\ConnectDataCollector">
             <argument type="service" id="sensiolabs_connect.guzzle.plugin_history" />
-            <tag name="data_collector" id="sensiolabs_connect" template="SensioLabsConnectBundle:Collector:connect"/>
+            <tag name="data_collector" id="connect-sdk" template="@ConnectSDK/Collector/connect-sdk.html.twig"/>
         </service>
     </services>
 </container>
