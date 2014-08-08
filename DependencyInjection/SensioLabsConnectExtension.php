@@ -46,5 +46,10 @@ class SensioLabsConnectExtension extends Extension
         $container->setParameter('sensiolabs_connect.oauth.session_callback_path', $config['oauth_callback_path']);
         $container->setParameter('sensiolabs_connect.api.app_id', $config['app_id']);
         $container->setParameter('sensiolabs_connect.api.app_secret', $config['app_secret']);
+
+        $ref = new \ReflectionClass('SensioLabs\Connect\Profiler\ConnectDataCollector');
+
+        $definition = $container->getDefinition('twig.loader');
+        $definition->addMethodCall('addPath', array(dirname($ref->getFileName()).'/Resources/views', 'ConnectSDK'));
     }
 }
