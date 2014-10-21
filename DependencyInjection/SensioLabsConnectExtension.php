@@ -48,6 +48,7 @@ class SensioLabsConnectExtension extends Extension
         $container->setParameter('sensiolabs_connect.api.app_secret', $config['app_secret']);
 
         $container->getDefinition('sensiolabs_connect.buzz.client')
-            ->addMethodCall('setTimeout', array($config['timeout']));
+            ->addMethodCall('setTimeout', array($config['timeout']))
+        ;
     }
 }

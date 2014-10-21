@@ -14,6 +14,8 @@
         <parameter key="security.authentication.listener.sensiolabs_connect.class">SensioLabs\Connect\Security\Firewall\ConnectAuthenticationListener</parameter>
         <parameter key="security.authentication.entry_point.sensiolabs_connect.class">SensioLabs\Connect\Security\EntryPoint\ConnectEntryPoint</parameter>
         <parameter key="security.user.provider.sensiolabs_connect_in_memory.class">SensioLabs\Connect\Security\User\ConnectInMemoryUserProvider</parameter>
+
+        <parameter key="sensiolabs_connect.authentication.rethrow_exception">%kernel.debug%</parameter>
     </parameters>
 
     <services>
@@ -37,6 +39,9 @@
             </call>
             <call method="setApi">
                 <argument type="service" id="sensiolabs_connect.api" />
+            </call>
+            <call method="setRethrowException">
+                <argument>%sensiolabs_connect.authentication.rethrow_exception%</argument>
             </call>
        </service>
 
