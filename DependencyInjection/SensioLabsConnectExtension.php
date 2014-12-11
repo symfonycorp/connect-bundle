@@ -39,6 +39,10 @@ class SensioLabsConnectExtension extends Extension
             ->replaceArgument(3, $config['oauth_endpoint'])
         ;
 
+        $container->getDefinition('sensiolabs_connect.oauth_consumer')
+            ->addMethodCall('setStrictChecks', [$config['strict_checks']])
+        ;
+
         $container->getDefinition('sensiolabs_connect.api')
             ->replaceArgument(0, $config['api_endpoint'])
         ;
