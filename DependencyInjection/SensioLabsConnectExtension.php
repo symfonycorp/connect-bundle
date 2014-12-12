@@ -40,7 +40,7 @@ class SensioLabsConnectExtension extends Extension
         ;
 
         $container->getDefinition('sensiolabs_connect.oauth_consumer')
-            ->addMethodCall('setStrictChecks', [$config['strict_checks']])
+            ->addMethodCall('setStrictChecks', array($config['strict_checks']))
         ;
 
         $container->getDefinition('sensiolabs_connect.api')
