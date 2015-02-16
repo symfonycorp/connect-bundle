@@ -15,7 +15,7 @@ Add SensioLabsConnectBundle in your `composer.json`:
 
     {
         "require": {
-            "sensiolabs/connect-bundle": "~2.0"
+            "sensiolabs/connect-bundle": "~4.2"
         }
     }
 
