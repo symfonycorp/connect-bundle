@@ -161,7 +161,7 @@ firewall in `security.yml`.
 
 This means you need to fetch the authentication error if there is one and display
 it in the view. This is similar to what you do for a typical login form on
-Symfony (here we assume you have a `homepage` routing pointing to the
+Symfony (here we assume you have a `homepage` route pointing to the
 `AppBundle:Default:homepage` controller):
 
 ```php
@@ -220,7 +220,7 @@ Cookbooks
 ```php
 <?php
 
-namespace Sensiolabs\Bundle\HowToBundle\Entity;
+namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use SensioLabs\Connect\Api\Entity\User as ConnectApiUser;
@@ -294,10 +294,10 @@ class User implements UserInterface
 ```php
 <?php
 
-namespace Sensiolabs\Bundle\HowToBundle\Repository;
+namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Sensiolabs\Bundle\HowToBundle\Entity\User;
+use AppBundle\Entity\User;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -326,7 +326,7 @@ class UserRepository extends EntityRepository implements UserProviderInterface
 
     public function supportsClass($class)
     {
-        return 'Sensiolabs\Bundle\HowToBundle\Entity\User' === $class;
+        return 'AppBundle\Entity\User' === $class;
     }
 }
 ```
@@ -338,7 +338,7 @@ Don't forget to update your database.
 ```php
 <?php
 
-namespace Sensiolabs\Bundle\HowToBundle\EventListener;
+namespace AppBundle\EventListener;
 
 use Doctrine\ORM\EntityManager;
 use SensioLabs\Connect\Security\Authentication\Token\ConnectToken;
@@ -353,7 +353,7 @@ class SecurityInteractiveLoginListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return array(
-            SecurityEvents::INTERACTIVE_LOGIN => 'onInteractiveLogin',
+            SecurityEvents::INTERACTIVE_LOGIN => 'registerUser',
         );
     }
 
@@ -362,7 +362,7 @@ class SecurityInteractiveLoginListener implements EventSubscriberInterface
         $this->em = $em;
     }
 
-    public function onInteractiveLogin(InteractiveLoginEvent $event)
+    public function registerUser(InteractiveLoginEvent $event)
     {
         $token = $event->getAuthenticationToken();
 
@@ -391,10 +391,10 @@ class SecurityInteractiveLoginListener implements EventSubscriberInterface
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="sensiolabs_howto.repository.user" class="Sensiolabs\Bundle\HowToBundle\Repository\UserRepository" factory-service="doctrine" factory-method="getRepository">
+        <service id="app.repository.user" class="AppBundle\Repository\UserRepository" factory-service="doctrine" factory-method="getRepository">
             <argument>SensiolabsHowToBundle:User</argument>
         </service>
-        <service id="sensiolabs_howto.event_listener.interactive_login" class="Sensiolabs\Bundle\HowToBundle\EventListener\SecurityInteractiveLoginListener">
+        <service id="app.event_listener.interactive_login" class="AppBundle\EventListener\SecurityInteractiveLoginListener">
             <tag name="kernel.event_subscriber" />
             <argument type="service" id="doctrine.orm.entity_manager" />
         </service>
@@ -408,11 +408,11 @@ class SecurityInteractiveLoginListener implements EventSubscriberInterface
 # app/config/security.yml
 security:
     encoders:
-        Sensiolabs\Bundle\HowToBundle\Entity\User: plaintext
+        AppBundle\Entity\User: plaintext
 
     providers:
         sensiolabs_connect:
-            id: sensiolabs_howto.repository.user
+            id: app.repository.user
 ```
 
 #### Step 5 - Enjoy
