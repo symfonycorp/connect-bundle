@@ -26,14 +26,14 @@ class SensioLabsConnectExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container)
     {
+        $processor = new Processor();
+        $config = $processor->processConfiguration(new Configuration(), $configs);
+
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('connect.xml');
         if ($config['enable_security']) {
             $loader->load('security.xml');
         }
-
-        $processor = new Processor();
-        $config = $processor->processConfiguration(new Configuration(), $configs);
 
         $container->getDefinition('sensiolabs_connect.oauth_consumer')
             ->replaceArgument(0, $config['app_id'])
