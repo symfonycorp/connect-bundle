@@ -36,6 +36,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('api_endpoint')->defaultValue('https://connect.sensiolabs.com/api')->end()
                 ->scalarNode('timeout')->defaultValue(5)->end()
                 ->booleanNode('strict_checks')->defaultValue(true)->end()
+                ->booleanNode('enable_security')->canBeDisabled()->end()
             ->end()
         ;
 

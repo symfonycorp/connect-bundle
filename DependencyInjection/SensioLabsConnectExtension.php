@@ -28,6 +28,9 @@ class SensioLabsConnectExtension extends Extension
     {
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('connect.xml');
+        if ($config['enable_security']) {
+            $loader->load('security.xml');
+        }
 
         $processor = new Processor();
         $config = $processor->processConfiguration(new Configuration(), $configs);
