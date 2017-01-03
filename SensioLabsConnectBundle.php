@@ -27,8 +27,10 @@ class SensioLabsConnectBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {
-        $container->getExtension('security')->addSecurityListenerFactory(new ConnectFactory());
-        $container->getExtension('security')->addUserProviderFactory(new ConnectInMemoryFactory());
+        if ($container->has('security.authentication.provider.sensiolabs_connect')) {
+            $container->getExtension('security')->addSecurityListenerFactory(new ConnectFactory());
+            $container->getExtension('security')->addUserProviderFactory(new ConnectInMemoryFactory());
+        }
         $container->addCompilerPass(new ApiPass(), PassConfig::TYPE_AFTER_REMOVING);
     }
 }
