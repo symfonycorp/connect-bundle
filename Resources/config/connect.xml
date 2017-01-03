@@ -50,7 +50,7 @@
 
         <!-- Collector -->
         <service id="sensiolabs_connect.collector.api" class="SensioLabs\Bundle\ConnectBundle\Collector\ApiCollector">
-            <tag name="data_collector" id="sensiolabs_connect" template="SensioLabsConnectBundle:Collector:connect"/>
+            <tag name="data_collector" id="sensiolabs_connect" template="@SensioLabsConnect/Collector/connect.html.twig"/>
         </service>
     </services>
 </container>
