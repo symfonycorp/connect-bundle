@@ -11,6 +11,7 @@
 
 namespace SensioLabs\Bundle\ConnectBundle\DependencyInjection;
 
+use Symfony\Bundle\SecurityBundle\DependencyInjection\SecurityExtension;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -24,6 +25,13 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  */
 class SensioLabsConnectExtension extends Extension
 {
+    private $securityEnabled = false;
+
+    public function enableSecurity()
+    {
+        $this->securityEnabled = true;
+    }
+
     public function load(array $configs, ContainerBuilder $container)
     {
         $processor = new Processor();
@@ -31,7 +39,7 @@ class SensioLabsConnectExtension extends Extension
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('connect.xml');
-        if ($config['enable_security']) {
+        if ($this->securityEnabled) {
             $loader->load('security.xml');
         }
 
