@@ -12,6 +12,7 @@
 namespace SensioLabs\Bundle\ConnectBundle\DependencyInjection\Security\Factory;
 
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AbstractFactory;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
@@ -38,7 +39,7 @@ class ConnectFactory extends AbstractFactory
     {
         $provider = 'security.authentication.provider.sensiolabs_connect.'.$id;
         $container
-            ->setDefinition($provider, new DefinitionDecorator('security.authentication.provider.sensiolabs_connect'))
+            ->setDefinition($provider, $this->createChildDefinition('security.authentication.provider.sensiolabs_connect'))
             ->replaceArgument(0, new Reference($userProviderId))
             ->replaceArgument(1, $id)
         ;
@@ -83,9 +84,18 @@ class ConnectFactory extends AbstractFactory
     {
         $entryPoint = 'security.authentication.entry_point.sensiolabs_connect.'.$id;
         $container
-            ->setDefinition($entryPoint, new DefinitionDecorator('security.authentication.entry_point.sensiolabs_connect'))
+            ->setDefinition($entryPoint, $this->createChildDefinition('security.authentication.entry_point.sensiolabs_connect'))
         ;
 
         return $entryPoint;
+    }
+
+    private function createChildDefinition($id)
+    {
+        if (class_exists('Symfony\Component\DependencyInjection\ChildDefinition')) {
+            return new ChildDefinition($id);
+        }
+
+        return new DefinitionDecorator($id);
     }
 }

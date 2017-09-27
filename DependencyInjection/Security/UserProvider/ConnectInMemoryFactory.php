@@ -12,6 +12,7 @@
 namespace SensioLabs\Bundle\ConnectBundle\DependencyInjection\Security\UserProvider;
 
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\UserProvider\UserProviderFactoryInterface;
@@ -30,7 +31,7 @@ class ConnectInMemoryFactory implements UserProviderFactoryInterface
             $users[str_replace('_', '-', $username)] = $roles;
         }
 
-        $definition = $container->setDefinition($id, new DefinitionDecorator('security.user.provider.sensiolabs_connect_in_memory'));
+        $definition = $container->setDefinition($id, $this->createChildDefinition('security.user.provider.sensiolabs_connect_in_memory'));
         $definition->setArguments(array($users));
     }
 
@@ -50,5 +51,14 @@ class ConnectInMemoryFactory implements UserProviderFactoryInterface
                 ->end()
             ->end()
         ;
+    }
+
+    private function createChildDefinition($id)
+    {
+        if (class_exists('Symfony\Component\DependencyInjection\ChildDefinition')) {
+            return new ChildDefinition($id);
+        }
+
+        return new DefinitionDecorator($id);
     }
 }
