@@ -43,7 +43,7 @@
         <!-- Browser -->
         <service id="sensiolabs_connect.buzz.message_factory" class="Buzz\Message\Factory\Factory" public="false" />
         <service id="sensiolabs_connect.buzz.client" class="Buzz\Client\Curl" public="false" />
-        <service id="sensiolabs_connect.buzz" class="Buzz\Browser" public="false">
+        <service id="sensiolabs_connect.buzz" class="Buzz\Browser" public="true">
             <argument type="service" id="sensiolabs_connect.buzz.client" />
             <argument type="service" id="sensiolabs_connect.buzz.message_factory" />
         </service>
