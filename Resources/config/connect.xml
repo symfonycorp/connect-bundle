@@ -49,7 +49,7 @@
         </service>
 
         <!-- Collector -->
-        <service id="sensiolabs_connect.collector.api" class="SensioLabs\Bundle\ConnectBundle\Collector\ApiCollector">
+        <service id="sensiolabs_connect.collector.api" class="SensioLabs\Bundle\ConnectBundle\Collector\ApiCollector" public="true">
             <tag name="data_collector" id="sensiolabs_connect" template="@SensioLabsConnect/Collector/connect.html.twig"/>
         </service>
     </services>
