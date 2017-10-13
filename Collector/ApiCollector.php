@@ -37,6 +37,14 @@ class ApiCollector extends DataCollector implements ListenerInterface
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function reset()
+    {
+        $this->data = array();
+    }
+
     public function getCalls()
     {
         return $this->data;
