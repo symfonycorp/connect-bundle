@@ -45,6 +45,7 @@
 
         <service id="sensiolabs_connect.oauth_controller" class="%sensiolabs_connect.oauth_controller.class%">
             <argument type="service" id="security.authentication.entry_point.sensiolabs_connect" />
+            <tag name="controller.service_arguments" />
         </service>
     </services>
 </container>
