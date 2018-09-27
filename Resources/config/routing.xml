@@ -5,7 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="sensiolabs_connect_new_session" path="/connect-with-sensiolabs" methods="GET">
-        <default key="_controller">sensiolabs_connect.oauth_controller:newSessionAction</default>
+        <default key="_controller">sensiolabs_connect.oauth_controller::newSessionAction</default>
     </route>
 
     <route id="oauth_callback" path="/session/callback" />
