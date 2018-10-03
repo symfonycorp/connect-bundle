@@ -1,18 +1,18 @@
 <?php
 
 /*
- * This file is part of the SensioLabsConnectBundle package.
+ * This file is part of the SymfonyCorpConnectBundle package.
  *
- * (c) SensioLabs <contact@sensiolabs.com>
+ * (c) Symfony <support@symfony.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace SensioLabs\Bundle\ConnectBundle\Controller;
+namespace SymfonyCorp\Bundle\ConnectBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
-use SensioLabs\Connect\Security\EntryPoint\ConnectEntryPoint;
+use SymfonyCorp\Connect\Security\EntryPoint\ConnectEntryPoint;
 
 /**
  * @author Grégoire Pineau <lyrixx@lyrixx.info>

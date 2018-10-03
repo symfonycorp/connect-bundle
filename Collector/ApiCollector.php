@@ -1,6 +1,6 @@
 <?php
 
-namespace SensioLabs\Bundle\ConnectBundle\Collector;
+namespace SymfonyCorp\Bundle\ConnectBundle\Collector;
 
 use Buzz\Listener\ListenerInterface;
 use Buzz\Message\MessageInterface;
@@ -52,6 +52,6 @@ class ApiCollector extends DataCollector implements ListenerInterface
 
     public function getName()
     {
-        return 'sensiolabs_connect';
+        return 'symfony_connect';
     }
 }

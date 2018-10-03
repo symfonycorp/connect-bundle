@@ -1,15 +1,15 @@
 <?php
 
 /*
- * This file is part of the SensioLabsConnectBundle package.
+ * This file is part of the SymfonyCorpConnectBundle package.
  *
- * (c) SensioLabs <contact@sensiolabs.com>
+ * (c) Symfony <support@symfony.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace SensioLabs\Bundle\ConnectBundle\DependencyInjection;
+namespace SymfonyCorp\Bundle\ConnectBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -24,11 +24,11 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         if (method_exists(TreeBuilder::class, 'getRootNode')) {
-            $treeBuilder = new TreeBuilder('sensiolabs_connect');
+            $treeBuilder = new TreeBuilder('symfony_connect');
             $rootNode = $treeBuilder->getRootNode();
         } else {
             $treeBuilder = new TreeBuilder();
-            $rootNode = $treeBuilder->root('sensiolabs_connect');
+            $rootNode = $treeBuilder->root('symfony_connect');
         }
 
         $rootNode
@@ -37,8 +37,8 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('app_secret')->isRequired()->end()
                 ->scalarNode('scope')->isRequired()->end()
                 ->scalarNode('oauth_callback_path')->defaultValue('/session/callback')->end()
-                ->scalarNode('oauth_endpoint')->defaultValue('https://connect.sensiolabs.com')->end()
-                ->scalarNode('api_endpoint')->defaultValue('https://connect.sensiolabs.com/api')->end()
+                ->scalarNode('oauth_endpoint')->defaultValue('https://connect.symfony.com')->end()
+                ->scalarNode('api_endpoint')->defaultValue('https://connect.symfony.com/api')->end()
                 ->scalarNode('timeout')->defaultValue(5)->end()
                 ->booleanNode('strict_checks')->defaultValue(true)->end()
             ->end()
