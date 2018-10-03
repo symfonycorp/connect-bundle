@@ -1,15 +1,15 @@
 <?php
 
 /*
- * This file is part of the SensioLabsConnectBundle package.
+ * This file is part of the SymfonyCorpConnectBundle package.
  *
- * (c) SensioLabs <contact@sensiolabs.com>
+ * (c) Symfony <support@symfony.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace SensioLabs\Bundle\ConnectBundle\DependencyInjection\Security\Factory;
+namespace SymfonyCorp\Bundle\ConnectBundle\DependencyInjection\Security\Factory;
 
 use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AbstractFactory;
 use Symfony\Component\DependencyInjection\ChildDefinition;
@@ -37,9 +37,9 @@ class ConnectFactory extends AbstractFactory
      */
     protected function createAuthProvider(ContainerBuilder $container, $id, $config, $userProviderId)
     {
-        $provider = 'security.authentication.provider.sensiolabs_connect.'.$id;
+        $provider = 'security.authentication.provider.symfony_connect.'.$id;
         $container
-            ->setDefinition($provider, $this->createChildDefinition('security.authentication.provider.sensiolabs_connect'))
+            ->setDefinition($provider, $this->createChildDefinition('security.authentication.provider.symfony_connect'))
             ->replaceArgument(0, new Reference($userProviderId))
             ->replaceArgument(1, $id)
         ;
@@ -64,7 +64,7 @@ class ConnectFactory extends AbstractFactory
      */
     protected function getListenerId()
     {
-        return 'security.authentication.listener.sensiolabs_connect';
+        return 'security.authentication.listener.symfony_connect';
     }
 
     public function getPosition()
@@ -74,7 +74,7 @@ class ConnectFactory extends AbstractFactory
 
     public function getKey()
     {
-        return 'sensiolabs_connect';
+        return 'symfony_connect';
     }
 
     /**
@@ -82,9 +82,9 @@ class ConnectFactory extends AbstractFactory
      */
     protected function createEntryPoint($container, $id, $config, $defaultEntryPointId)
     {
-        $entryPoint = 'security.authentication.entry_point.sensiolabs_connect.'.$id;
+        $entryPoint = 'security.authentication.entry_point.symfony_connect.'.$id;
         $container
-            ->setDefinition($entryPoint, $this->createChildDefinition('security.authentication.entry_point.sensiolabs_connect'))
+            ->setDefinition($entryPoint, $this->createChildDefinition('security.authentication.entry_point.symfony_connect'))
         ;
 
         return $entryPoint;
