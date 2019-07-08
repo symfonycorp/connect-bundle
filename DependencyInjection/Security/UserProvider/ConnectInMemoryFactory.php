@@ -1,15 +1,15 @@
 <?php
 
 /*
- * This file is part of the SensioLabs Connect package.
+ * This file is part of the SymfonyConnect package.
  *
- * (c) SensioLabs <contact@sensiolabs.com>
+ * (c) Symfony <support@symfony.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
-namespace SensioLabs\Bundle\ConnectBundle\DependencyInjection\Security\UserProvider;
+namespace SymfonyCorp\Bundle\ConnectBundle\DependencyInjection\Security\UserProvider;
 
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ChildDefinition;
@@ -31,7 +31,7 @@ class ConnectInMemoryFactory implements UserProviderFactoryInterface
             $users[str_replace('_', '-', $username)] = $roles;
         }
 
-        $definition = $container->setDefinition($id, $this->createChildDefinition('security.user.provider.sensiolabs_connect_in_memory'));
+        $definition = $container->setDefinition($id, $this->createChildDefinition('security.user.provider.symfony_connect_in_memory'));
         $definition->setArguments(array($users));
     }
 

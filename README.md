@@ -1,18 +1,18 @@
-SensioLabsConnectBundle
-=======================
+SymfonyCorpConnectBundle
+========================
 
 About
 -----
 
-This is the official bundle of the [SensioLabs Connect SDK](https://github.com/sensiolabs/connect).
+This is the official bundle of the [SymfonyConnect SDK](https://github.com/symfonycorp/connect).
 
 Installation
 ------------
 
-### Step 1: Install SensioLabsConnectBundle using [Composer](http://getcomposer.org)
+### Step 1: Install SymfonyCorpConnectBundle using [Composer](http://getcomposer.org)
 
 ```bash
-$ composer require sensiolabs/connect-bundle
+$ composer require symfonycorp/connect-bundle
 ```
 
 ### Step 2: Enable the bundle
@@ -25,7 +25,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new SensioLabs\Bundle\ConnectBundle\SensioLabsConnectBundle(),
+        new SymfonyCorp\Bundle\ConnectBundle\SymfonyCorpConnectBundle(),
         // ...
     );
 }
@@ -35,7 +35,7 @@ public function registerBundles()
 
 ```yaml
 # app/config/config.yml
-sensio_labs_connect:
+symfony_connect:
     app_id:     Your app id
     app_secret: Your app secret
     scope:      Your app scope # SCOPE_EMAIL SCOPE_PUBLIC
@@ -44,7 +44,7 @@ sensio_labs_connect:
 Usage
 -----
 
-### Use SensioLabsConnect to authenticate your user
+### Use SymfonyConnect to authenticate your user
 
 #### Step 1: Configure the security
 
@@ -56,18 +56,18 @@ If you don't want to persist your users, you can use `ConnectInMemoryUserProvide
 # app/config/security.yml
 security:
     providers:
-        sensiolabs_connect:
+        symfony_connect:
             connect_memory: ~
     firewalls:
         dev: { pattern:  "^/(_(profiler|wdt)|css|images|js)/",  security: false }
         secured_area:
             pattern:    ^/
-            sensiolabs_connect:
+            symfony_connect:
                 check_path: oauth_callback
-                login_path: sensiolabs_connect_new_session
+                login_path: symfony_connect_new_session
                 failure_path: homepage # need to be adapted to your config, see step 5
                 remember_me: false
-                provider: sensiolabs_connect
+                provider: symfony_connect
             anonymous: true
 ```
 
@@ -77,7 +77,7 @@ You can also load specific roles for some users:
 # app/config/security.yml
 security:
     providers:
-        sensiolabs_connect:
+        symfony_connect:
             connect_memory:
                 users:
                     90f28e69-9ce9-4a42-8b0e-e8c7fcc27713: "ROLE_CONNECT_USER ROLE_ADMIN"
@@ -91,22 +91,22 @@ Import the default routing
 
 ```yaml
 # app/config/routing.yml
-_sensiolabs_connect:
-    resource: "@SensioLabsConnectBundle/Resources/config/routing.xml"
+_symfony_connect:
+    resource: "@SymfonyCorpConnectBundle/Resources/config/routing.xml"
 ```
 
 #### Step 3: Add some link to your templates
 
-You can generate a link to the SensioLabs Connect login page:
+You can generate a link to the SymfonyConnect login page:
 
 ```twig
-<a href="{{ url('sensiolabs_connect_new_session') }}">Connect</a>
+<a href="{{ url('symfony_connect_new_session') }}">Connect</a>
 ```
 
 You can also specify the target URL after connection:
 
 ```twig
-<a href="{{ url('sensiolabs_connect_new_session') }}?target=XXX">Connect</a>
+<a href="{{ url('symfony_connect_new_session') }}?target=XXX">Connect</a>
 ```
 
 #### Step 4: Play with the user
@@ -122,7 +122,7 @@ You can also get access to the API root object:
 ```php
 $accessToken = $this->container->get('security.context')->getToken()->getAccessToken();
 
-$api = $this->get('sensiolabs_connect.api');
+$api = $this->get('symfony_connect.api');
 $api->setAccessToken($accessToken);
 
 $root = $api->getRoot();
@@ -133,30 +133,25 @@ If you use the built-in security component, you can access to the root api
 directly:
 
 ```
-$api = $this->get('sensiolabs_connect.api');
+$api = $this->get('symfony_connect.api');
 $user = $api->getRoot()->getCurrentUser();
 ```
 
 #### Step 5: Handling Failures
 
-> **Note**: this feature requires `sensiolabs/connect` `v3.0.0`
-
 Several errors can occur during the OAuth dance, for example the user can
 deny your application or the scope you defined in `config.yml` can be different
-from what you selected while creating your application on SensioLabsConnect.
-Theses failures need to be handled.
-
-Since `sensiolabs/connect` `v3.0.0`, failures handling is restored to the default
-Symfony failure handling.
+from what you selected while creating your application on SymfonyConnect.
+Theses failures arehandled by the default Symfony failure handling.
 
 Therefore, if an error occurred, the error is stored in the session (with a
 fallback on query attributes) and the user is redirected to the route/path
-specificed in `failure_path` node of the `sensiolabs_connect` section of your
+specificed in `failure_path` node of the `symfony_connect` section of your
 firewall in `security.yml`.
 
 > **Warning**: You **need** to specifiy `failure_path`. If you don't, the user
 > will be redirected back to `login_path`, meaning that will launch the
-> SensioLabsConnect authentication and redirect the user to SensioLabsConnect
+> SymfonyConnect authentication and redirect the user to SymfonyConnect
 > which can lead to a redirection loop.
 
 This means you need to fetch the authentication error if there is one and display
@@ -202,11 +197,11 @@ And then adapt your twig template:
 {# app/Resources/views/default/homepage.html.twig #}
 
 {% if app.user %}
-    Congrats! You are authenticated with SensioLabsConnect
+    Congrats! You are authenticated with SymfonyConnect
 {% elseif error %}
     {{ error.messageKey | trans(error.messageData, 'security') }}
 {% else %}
-    <a href="{{ url('sensiolabs_connect_new_session') }}">Connect with SensioLabsConnect</a>
+    <a href="{{ url('symfony_connect_new_session') }}">Connect with SymfonyConnect</a>
 {% endif %}
 ```
 
@@ -223,12 +218,12 @@ Cookbooks
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use SensioLabs\Connect\Api\Entity\User as ConnectApiUser;
+use SymfonyCorp\Connect\Api\Entity\User as ConnectApiUser;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Table(name="sl_user")
- * @ORM\Entity(repositoryClass="Sensiolabs\Bundle\HowToBundle\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  */
 class User implements UserInterface
 {
@@ -341,7 +336,7 @@ Don't forget to update your database.
 namespace AppBundle\EventListener;
 
 use Doctrine\ORM\EntityManager;
-use SensioLabs\Connect\Security\Authentication\Token\ConnectToken;
+use SymfonyCorp\Connect\Security\Authentication\Token\ConnectToken;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 use Symfony\Component\Security\Http\SecurityEvents;
@@ -392,7 +387,7 @@ class SecurityInteractiveLoginListener implements EventSubscriberInterface
 
     <services>
         <service id="app.repository.user" class="AppBundle\Repository\UserRepository" factory-service="doctrine" factory-method="getRepository">
-            <argument>SensiolabsHowToBundle:User</argument>
+            <argument>AppBundle:User</argument>
         </service>
         <service id="app.event_listener.interactive_login" class="AppBundle\EventListener\SecurityInteractiveLoginListener">
             <tag name="kernel.event_subscriber" />
@@ -411,7 +406,7 @@ security:
         AppBundle\Entity\User: plaintext
 
     providers:
-        sensiolabs_connect:
+        symfony_connect:
             id: app.repository.user
 ```
 

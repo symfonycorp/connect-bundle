@@ -5,52 +5,52 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="sensiolabs_connect.oauth_consumer.class">SensioLabs\Connect\OAuthConsumer</parameter>
-        <parameter key="sensiolabs_connect.api.class">SensioLabs\Connect\Api\Api</parameter>
-        <parameter key="sensiolabs_connect.api.parser.class">SensioLabs\Connect\Api\Parser\VndComSensiolabsConnectXmlParser</parameter>
-        <parameter key="sensiolabs_connect.error_translator.class">SensioLabs\Connect\Bridge\Symfony\Form\ErrorTranslator</parameter>
+        <parameter key="symfony_connect.oauth_consumer.class">SymfonyCorp\Connect\OAuthConsumer</parameter>
+        <parameter key="symfony_connect.api.class">SymfonyCorp\Connect\Api\Api</parameter>
+        <parameter key="symfony_connect.api.parser.class">SymfonyCorp\Connect\Api\Parser\VndComSymfonyConnectXmlParser</parameter>
+        <parameter key="symfony_connect.error_translator.class">SymfonyCorp\Connect\Bridge\Symfony\Form\ErrorTranslator</parameter>
     </parameters>
 
     <services>
         <!-- Security -->
-        <service id="sensiolabs_connect.oauth_consumer" class="%sensiolabs_connect.oauth_consumer.class%">
+        <service id="symfony_connect.oauth_consumer" class="%symfony_connect.oauth_consumer.class%">
             <argument /> <!-- app id -->
             <argument /> <!-- app secret -->
             <argument /> <!-- app scope -->
             <argument /> <!-- oauth endpoint -->
-            <argument type="service" id="sensiolabs_connect.buzz" />
+            <argument type="service" id="symfony_connect.buzz" />
             <argument type="service" id="logger" on-invalid="null" />
-            <tag name="monolog.logger" channel="sensiolabs_connect" />
+            <tag name="monolog.logger" channel="symfony_connect" />
         </service>
 
         <!-- Parser -->
-        <service id="sensiolabs_connect.api.parser" class="%sensiolabs_connect.api.parser.class%">
+        <service id="symfony_connect.api.parser" class="%symfony_connect.api.parser.class%">
         </service>
 
         <!-- Helper -->
-        <service id="sensiolabs_connect.error_translator" class="%sensiolabs_connect.error_translator.class%">
+        <service id="symfony_connect.error_translator" class="%symfony_connect.error_translator.class%">
         </service>
 
         <!-- Api -->
-        <service id="sensiolabs_connect.api" class="%sensiolabs_connect.api.class%">
+        <service id="symfony_connect.api" class="%symfony_connect.api.class%">
             <argument /> <!-- api endpoint -->
-            <argument type="service" id="sensiolabs_connect.buzz" />
-            <argument type="service" id="sensiolabs_connect.api.parser" />
+            <argument type="service" id="symfony_connect.buzz" />
+            <argument type="service" id="symfony_connect.api.parser" />
             <argument type="service" id="logger" on-invalid="null" />
-            <tag name="monolog.logger" channel="sensiolabs_connect" />
+            <tag name="monolog.logger" channel="symfony_connect" />
         </service>
 
         <!-- Browser -->
-        <service id="sensiolabs_connect.buzz.message_factory" class="Buzz\Message\Factory\Factory" public="false" />
-        <service id="sensiolabs_connect.buzz.client" class="Buzz\Client\Curl" public="false" />
-        <service id="sensiolabs_connect.buzz" class="Buzz\Browser" public="true">
-            <argument type="service" id="sensiolabs_connect.buzz.client" />
-            <argument type="service" id="sensiolabs_connect.buzz.message_factory" />
+        <service id="symfony_connect.buzz.message_factory" class="Buzz\Message\Factory\Factory" public="false" />
+        <service id="symfony_connect.buzz.client" class="Buzz\Client\Curl" public="false" />
+        <service id="symfony_connect.buzz" class="Buzz\Browser" public="true">
+            <argument type="service" id="symfony_connect.buzz.client" />
+            <argument type="service" id="symfony_connect.buzz.message_factory" />
         </service>
 
         <!-- Collector -->
-        <service id="sensiolabs_connect.collector.api" class="SensioLabs\Bundle\ConnectBundle\Collector\ApiCollector" public="true">
-            <tag name="data_collector" id="sensiolabs_connect" template="@SensioLabsConnect/Collector/connect.html.twig"/>
+        <service id="symfony_connect.collector.api" class="SymfonyCorp\Bundle\ConnectBundle\Collector\ApiCollector" public="true">
+            <tag name="data_collector" id="symfony_connect" template="@SymfonyCorpConnect/Collector/connect.html.twig"/>
         </service>
     </services>
 </container>
