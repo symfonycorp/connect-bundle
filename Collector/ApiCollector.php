@@ -9,6 +9,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\DataCollector\DataCollector;
 
+@trigger_error(sprintf('The "%s" class is deprecated since symfonycorp/connect-bundle 5.1.', ApiCollector::class), E_USER_DEPRECATED);
+
+/**
+ * @deprecated since symfonycorp/connect-bundle 5.1
+ */
 class ApiCollector extends DataCollector implements ListenerInterface
 {
     public function collect(Request $request, Response $response, \Exception $exception = null)
