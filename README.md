@@ -1,5 +1,5 @@
-SymfonyCorpConnectBundle
-========================
+symfony/connect-bundle
+======================
 
 About
 -----
@@ -9,7 +9,7 @@ This is the official bundle of the [SymfonyConnect SDK](https://github.com/symfo
 Installation
 ------------
 
-### Step 1: Install SymfonyCorpConnectBundle using [Composer](http://getcomposer.org)
+### Step 1: Install symfony/connect-bundle using [Composer](http://getcomposer.org)
 
 ```bash
 $ composer require symfonycorp/connect-bundle
@@ -25,7 +25,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new SymfonyCorp\Bundle\ConnectBundle\SymfonyCorpConnectBundle(),
+        new SymfonyCorp\Bundle\ConnectBundle\SymfonyConnectBundle(),
         // ...
     );
 }
@@ -92,7 +92,7 @@ Import the default routing
 ```yaml
 # app/config/routing.yml
 _symfony_connect:
-    resource: "@SymfonyCorpConnectBundle/Resources/config/routing.xml"
+    resource: "@SymfonyConnectBundle/Resources/config/routing.xml"
 ```
 
 #### Step 3: Add some link to your templates

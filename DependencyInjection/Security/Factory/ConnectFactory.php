@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the SymfonyCorpConnectBundle package.
+ * This file is part of the symfony/connect-bundle package.
  *
  * (c) Symfony <support@symfony.com>
  *

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the SymfonyCorpConnectBundle package.
+ * This file is part of the Symfonysymfony/connect-bundle package.
  *
  * (c) Symfony <support@symfony.com>
  *
@@ -18,8 +18,6 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 /**
- * SymfonyCorpConnectExtension.
- *
  * @author Marc Weistroff <marc.weistroff@sensiolabs.com>
  */
 class SymfonyConnectExtension extends Extension

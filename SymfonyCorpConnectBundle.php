@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the SymfonyCorpConnectBundle package.
+ * This file is part of the symfony/connect-bundle package.
  *
  * (c) Symfony <support@symfony.com>
  *
@@ -20,11 +20,9 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 use SymfonyCorp\Bundle\ConnectBundle\DependencyInjection\SymfonyConnectExtension;
 
 /**
- * SymfonyCorpConnectBundle
- *
  * @author Marc Weistroff <marc.weistroff@sensiolabs.com>
  */
-class SymfonyCorpConnectBundle extends Bundle
+class SymfonyConnectBundle extends Bundle
 {
     public function getContainerExtension()
     {

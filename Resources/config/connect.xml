@@ -50,7 +50,7 @@
 
         <!-- Collector -->
         <service id="symfony_connect.collector.api" class="SymfonyCorp\Bundle\ConnectBundle\Collector\ApiCollector" public="true">
-            <tag name="data_collector" id="symfony_connect" template="@SymfonyCorpConnect/Collector/connect.html.twig"/>
+            <tag name="data_collector" id="symfony_connect" template="@SymfonyConnect/Collector/connect.html.twig"/>
         </service>
     </services>
 </container>
