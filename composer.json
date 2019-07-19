@@ -3,14 +3,13 @@
     "description": "Official bundle for the SymfonyConnect SDK",
     "type": "symfony-bundle",
     "keywords": ["symfonycorp connect"],
-    "homepage": "https://github.com/symfonycop/SymfonyCorpConnectBundle",
+    "homepage": "https://github.com/symfonycorp/connect-bundle",
     "license": "MIT",
     "authors": [],
     "require": {
         "php": ">=5.3.2",
         "symfonycorp/connect": "~5.0"
     },
-    "target-dir": "SymfonyCorp/Bundle/ConnectBundle",
     "autoload": {
         "psr-4": {
             "SymfonyCorp\\Bundle\\ConnectBundle\\": ""

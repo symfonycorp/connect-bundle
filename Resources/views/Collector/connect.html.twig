@@ -5,7 +5,7 @@
         {% set profiler_markup_version = profiler_markup_version|default(1) %}
 
         {% set icon %}
-            {{ include('@SymfonyCorpConnect/Collector/icon.png.twig', { html_attributes: profiler_markup_version == 1 ? 'width="18" height="18" style="padding-top:6px;padding-bottom:4px;"' }) }}
+            {{ include('@SymfonyConnect/Collector/icon.png.twig', { html_attributes: profiler_markup_version == 1 ? 'width="18" height="18" style="padding-top:6px;padding-bottom:4px;"' }) }}
 
             {% if profiler_markup_version == 1 %}
                 <span class="sf-toolbar-status">{{ collector.calls|length }}</span>
@@ -24,7 +24,7 @@
     {% if profiler_markup_version == 1 %}
         <span class="label">
             <span class="icon">
-                {{ include('@SymfonyCorpConnect/Collector/icon.png.twig') }}
+                {{ include('@SymfonyConnect/Collector/icon.png.twig') }}
             </span>
             <strong>Connect</strong>
             <span class="count">
@@ -34,7 +34,7 @@
     {% else %}
         <span class="label {{ collector.calls|length == 0 ? 'disabled' }}">
             <span class="icon">
-                {{ include('@SymfonyCorpConnect/Collector/icon.png.twig') }}
+                {{ include('@SymfonyConnect/Collector/icon.png.twig') }}
             </span>
             <strong>Connect</strong>
         </span>
