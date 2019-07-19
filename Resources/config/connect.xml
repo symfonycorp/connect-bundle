@@ -41,16 +41,21 @@
         </service>
 
         <!-- Browser -->
-        <service id="symfony_connect.buzz.message_factory" class="Buzz\Message\Factory\Factory" public="false" />
-        <service id="symfony_connect.buzz.client" class="Buzz\Client\Curl" public="false" />
+        <service id="symfony_connect.buzz.message_factory" class="Buzz\Message\Factory\Factory" public="false">
+            <deprecated>The "%service_id%" service is deprecated since symfonycorp/connect-bundle 5.1 and will be removed in future versions.</deprecated>
+        </service>
+        <service id="symfony_connect.buzz.client" class="Buzz\Client\Curl" public="false">
+            <deprecated>The "%service_id%" service is deprecated since symfonycorp/connect-bundle 5.1 and will be removed in future versions.</deprecated>
+        </service>
         <service id="symfony_connect.buzz" class="Buzz\Browser" public="true">
+            <deprecated>The "%service_id%" service is deprecated since symfonycorp/connect-bundle 5.1 and will be removed in future versions.</deprecated>
             <argument type="service" id="symfony_connect.buzz.client" />
             <argument type="service" id="symfony_connect.buzz.message_factory" />
         </service>
 
         <!-- Collector -->
         <service id="symfony_connect.collector.api" class="SymfonyCorp\Bundle\ConnectBundle\Collector\ApiCollector" public="true">
-            <tag name="data_collector" id="symfony_connect" template="@SymfonyConnect/Collector/connect.html.twig"/>
+            <deprecated>The "%service_id%" service is deprecated since symfonycorp/connect-bundle 5.1 and will be removed in future versions.</deprecated>
         </service>
     </services>
 </container>
