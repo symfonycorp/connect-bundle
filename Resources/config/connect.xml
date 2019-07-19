@@ -5,6 +5,7 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+        <!-- Parameters will be removed in connect-bundle 6.0 -->
         <parameter key="symfony_connect.oauth_consumer.class">SymfonyCorp\Connect\OAuthConsumer</parameter>
         <parameter key="symfony_connect.api.class">SymfonyCorp\Connect\Api\Api</parameter>
         <parameter key="symfony_connect.api.parser.class">SymfonyCorp\Connect\Api\Parser\VndComSymfonyConnectXmlParser</parameter>

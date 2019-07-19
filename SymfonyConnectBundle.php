@@ -40,6 +40,6 @@ class SymfonyConnectBundle extends Bundle
             $container->getExtension('security')->addSecurityListenerFactory(new ConnectFactory());
             $container->getExtension('security')->addUserProviderFactory(new ConnectInMemoryFactory());
         }
-        $container->addCompilerPass(new ApiPass(), PassConfig::TYPE_AFTER_REMOVING);
+        $container->addCompilerPass(new ApiPass());
     }
 }
