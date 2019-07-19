@@ -12,8 +12,8 @@
     },
     "target-dir": "SymfonyCorp/Bundle/ConnectBundle",
     "autoload": {
-        "psr-0": {
-            "SymfonyCorp\\Bundle\\ConnectBundle": ""
+        "psr-4": {
+            "SymfonyCorp\\Bundle\\ConnectBundle\\": ""
         }
     },
     "extra": {
