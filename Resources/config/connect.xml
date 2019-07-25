@@ -40,6 +40,7 @@
             <argument type="service" id="logger" on-invalid="null" />
             <tag name="monolog.logger" channel="symfony_connect" />
         </service>
+        <service id="SymfonyCorp\Connect\Api\Api" alias="symfony_connect.api" />
 
         <!-- Browser -->
         <service id="symfony_connect.buzz.message_factory" class="Buzz\Message\Factory\Factory" public="false">

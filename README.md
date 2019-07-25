@@ -15,30 +15,15 @@ Installation
 $ composer require symfonycorp/connect-bundle
 ```
 
-### Step 2: Enable the bundle
+If you're not using Symfony Flex, please take inspiration from
+[this bundle's recipe](//github.com/symfony/recipes-contrib/blob/master/symfony/connect-bundle/)
+to enable it.
 
-```php
-<?php
+### Step 2: Configure your `.env.local` file
 
-// app/AppKernel.php
-public function registerBundles()
-{
-    $bundles = array(
-        // ...
-        new SymfonyCorp\Bundle\ConnectBundle\SymfonyConnectBundle(),
-        // ...
-    );
-}
-```
-
-### Step 3: Configure your `config.yml` file
-
-```yaml
-# app/config/config.yml
-symfony_connect:
-    app_id:     Your app id
-    app_secret: Your app secret
-    scope:      Your app scope # SCOPE_EMAIL SCOPE_PUBLIC
+```sh
+SYMFONY_CONNECT_APP_ID='Your app id'
+SYMFONY_CONNECT_APP_SECRET='Your app secret'
 ```
 
 Usage
@@ -53,19 +38,20 @@ Usage
 If you don't want to persist your users, you can use `ConnectInMemoryUserProvider`:
 
 ```yaml
-# app/config/security.yml
+# config/packages/security.yaml
 security:
     providers:
         symfony_connect:
             connect_memory: ~
     firewalls:
-        dev: { pattern:  "^/(_(profiler|wdt)|css|images|js)/",  security: false }
+        # [...]
+
         secured_area:
-            pattern:    ^/
+            pattern: ^/
             symfony_connect:
-                check_path: oauth_callback
-                login_path: symfony_connect_new_session
-                failure_path: homepage # need to be adapted to your config, see step 5
+                check_path: symfony_connect_callback
+                login_path: symfony_connect_login
+                failure_path: home # need to be adapted to your config, see step 4
                 remember_me: false
                 provider: symfony_connect
             anonymous: true
@@ -74,7 +60,7 @@ security:
 You can also load specific roles for some users:
 
 ```yaml
-# app/config/security.yml
+# config/packages/security.yaml
 security:
     providers:
         symfony_connect:
@@ -85,69 +71,56 @@ security:
 
 **Note:** The `username` is the user uuid.
 
-#### Step 2: Configure the routing
-
-Import the default routing
-
-```yaml
-# app/config/routing.yml
-_symfony_connect:
-    resource: "@SymfonyConnectBundle/Resources/config/routing.xml"
-```
-
-#### Step 3: Add some link to your templates
+#### Step 2: Add some link to your templates
 
 You can generate a link to the SymfonyConnect login page:
 
 ```twig
-<a href="{{ url('symfony_connect_new_session') }}">Connect</a>
+<a href="{{ url('symfony_connect_login') }}">Connect</a>
 ```
 
 You can also specify the target URL after connection:
 
 ```twig
-<a href="{{ url('symfony_connect_new_session') }}?target=XXX">Connect</a>
+<a href="{{ url('symfony_connect_login') }}?target=XXX">Connect</a>
 ```
 
-#### Step 4: Play with the user
+#### Step 3: Play with the user
 
-The API user is available through the security token:
+The API user is available through the token storage, which you can get by autowiring
+`Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface $tokenStorage`.
 
 ```php
-$user = $this->container->get('security.context')->getToken()->getApiUser();
+$user = $tokenStorage->getToken()->getApiUser();
 ```
 
-You can also get access to the API root object:
+If you use the built-in security component, you can access to the root api
+directly by autowiring `SymfonyCorp\Connect\Api\Api $api`:
+
+```
+$user = $api->getRoot()->getCurrentUser();
+```
+
+You can also get access to the API root object by providing an access token explicitly:
 
 ```php
-$accessToken = $this->container->get('security.context')->getToken()->getAccessToken();
-
-$api = $this->get('symfony_connect.api');
+$accessToken = $tokenStorage->getToken()->getAccessToken();
 $api->setAccessToken($accessToken);
-
 $root = $api->getRoot();
 $user = $root->getCurrentUser();
 ```
 
-If you use the built-in security component, you can access to the root api
-directly:
-
-```
-$api = $this->get('symfony_connect.api');
-$user = $api->getRoot()->getCurrentUser();
-```
-
-#### Step 5: Handling Failures
+#### Step 4: Handling Failures
 
 Several errors can occur during the OAuth dance, for example the user can
-deny your application or the scope you defined in `config.yml` can be different
+deny your application or the scope you defined in `symfony_connect.yaml` can be different
 from what you selected while creating your application on SymfonyConnect.
 Theses failures arehandled by the default Symfony failure handling.
 
 Therefore, if an error occurred, the error is stored in the session (with a
 fallback on query attributes) and the user is redirected to the route/path
 specificed in `failure_path` node of the `symfony_connect` section of your
-firewall in `security.yml`.
+firewall in `security.yaml`.
 
 > **Warning**: You **need** to specifiy `failure_path`. If you don't, the user
 > will be redirected back to `login_path`, meaning that will launch the
@@ -156,37 +129,38 @@ firewall in `security.yml`.
 
 This means you need to fetch the authentication error if there is one and display
 it in the view. This is similar to what you do for a typical login form on
-Symfony (here we assume you have a `homepage` route pointing to the
-`AppBundle:Default:homepage` controller):
+Symfony (here we assume you have a `home` route pointing to the following controller):
 
 ```php
-// src/AppBundle/Controller/DefaultController.php
+// src/Controller/HomeController.php
 
-namespace AppBundle\Controller;
+namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Security\Core\SecurityContextInterface;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
-class DefaultController extends Controller
+class HomeController extends AbstractController
 {
-    public function homepageAction(Request $request)
+    /**
+     * @Route("/", name="home")
+     */
+    public function home(Request $request)
     {
-        $session = $request->getSession();
+        $session = $request->hasSession() ? $request->getSession() : null;
 
         // get the authentication error if there is one
-        if ($request->attributes->has(SecurityContextInterface::AUTHENTICATION_ERROR)) {
-            $error = $request->attributes->get(
-                SecurityContextInterface::AUTHENTICATION_ERROR
-            );
-        } elseif (null !== $session && $session->has(SecurityContextInterface::AUTHENTICATION_ERROR)) {
-            $error = $session->get(SecurityContextInterface::AUTHENTICATION_ERROR);
-            $session->remove(SecurityContextInterface::AUTHENTICATION_ERROR);
+        if ($request->attributes->has(Security::AUTHENTICATION_ERROR)) {
+            $error = $request->attributes->get(Security::AUTHENTICATION_ERROR);
+        } elseif (null !== $session && $session->has(Security::AUTHENTICATION_ERROR)) {
+            $error = $session->get(Security::AUTHENTICATION_ERROR);
+            $session->remove(Security::AUTHENTICATION_ERROR);
         } else {
             $error = '';
         }
 
-        return $this->render('default/homepage.html.twig', array('error' => $error));
+        return $this->render('home.html.twig', ['error' => $error]);
     }
 }
 ```
@@ -194,14 +168,14 @@ class DefaultController extends Controller
 And then adapt your twig template:
 
 ```twig
-{# app/Resources/views/default/homepage.html.twig #}
+{# templates/home.html.twig #}
 
 {% if app.user %}
     Congrats! You are authenticated with SymfonyConnect
 {% elseif error %}
     {{ error.messageKey | trans(error.messageData, 'security') }}
 {% else %}
-    <a href="{{ url('symfony_connect_new_session') }}">Connect with SymfonyConnect</a>
+    <a href="{{ url('symfony_connect_login') }}">Log in with SymfonyConnect</a>
 {% endif %}
 ```
 
@@ -215,15 +189,15 @@ Cookbooks
 ```php
 <?php
 
-namespace AppBundle\Entity;
+namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use SymfonyCorp\Connect\Api\Entity\User as ConnectApiUser;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Table(name="sl_user")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @ORM\Table(name="user")
+ * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User implements UserInterface
 {
@@ -267,7 +241,7 @@ class User implements UserInterface
 
     public function getRoles()
     {
-        return array('ROLE_USER');
+        return ['ROLE_USER'];
     }
 
     public function getPassword()
@@ -289,25 +263,24 @@ class User implements UserInterface
 ```php
 <?php
 
-namespace AppBundle\Repository;
+namespace App\Repository;
 
-use Doctrine\ORM\EntityRepository;
-use AppBundle\Entity\User;
+use App\Entity\User;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
-class UserRepository extends EntityRepository implements UserProviderInterface
+class UserRepository extends ServiceEntityRepository implements UserProviderInterface
 {
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, User::class);
+    }
+
     public function loadUserByUsername($uuid)
     {
-        $user = $this->findOneByUuid($uuid);
-
-        if (!$user) {
-            $user = new User($uuid);
-        }
-
-        return $user;
+        return $this->findOneByUuid($uuid) ?: new User($uuid);
     }
 
     public function refreshUser(UserInterface $user)
@@ -321,7 +294,7 @@ class UserRepository extends EntityRepository implements UserProviderInterface
 
     public function supportsClass($class)
     {
-        return 'AppBundle\Entity\User' === $class;
+        return User::class === $class;
     }
 }
 ```
@@ -333,9 +306,9 @@ Don't forget to update your database.
 ```php
 <?php
 
-namespace AppBundle\EventListener;
+namespace App\EventListener;
 
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use SymfonyCorp\Connect\Security\Authentication\Token\ConnectToken;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
@@ -345,14 +318,7 @@ class SecurityInteractiveLoginListener implements EventSubscriberInterface
 {
     private $em;
 
-    public static function getSubscribedEvents()
-    {
-        return array(
-            SecurityEvents::INTERACTIVE_LOGIN => 'registerUser',
-        );
-    }
-
-    public function __construct(EntityManager $em)
+    public function __construct(EntityManagerInterface $em)
     {
         $this->em = $em;
     }
@@ -371,43 +337,27 @@ class SecurityInteractiveLoginListener implements EventSubscriberInterface
         $this->em->persist($user);
         $this->em->flush($user);
     }
+
+    public static function getSubscribedEvents()
+    {
+        return [
+            SecurityEvents::INTERACTIVE_LOGIN => 'registerUser',
+        ];
+    }
 }
 ```
 
-#### Step 4 - Wire everything
-
-##### Step 4.1 - Add new services
-
-```xml
-<?xml version="1.0" ?>
-
-<container xmlns="http://symfony.com/schema/dic/services"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
-    <services>
-        <service id="app.repository.user" class="AppBundle\Repository\UserRepository" factory-service="doctrine" factory-method="getRepository">
-            <argument>AppBundle:User</argument>
-        </service>
-        <service id="app.event_listener.interactive_login" class="AppBundle\EventListener\SecurityInteractiveLoginListener">
-            <tag name="kernel.event_subscriber" />
-            <argument type="service" id="doctrine.orm.entity_manager" />
-        </service>
-    </services>
-</container>
-```
-
-##### Step 4.2 - Configure security
+#### Step 4 - Configure security
 
 ```yaml
-# app/config/security.yml
+# config/packages/security.yaml
 security:
     encoders:
-        AppBundle\Entity\User: plaintext
+        App\Entity\User: plaintext
 
     providers:
         symfony_connect:
-            id: app.repository.user
+            id: App\Repository\UserRepository
 ```
 
 #### Step 5 - Enjoy
