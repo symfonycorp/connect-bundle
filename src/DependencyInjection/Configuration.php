@@ -15,31 +15,22 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
- * Configuration.
- *
  * @author Marc Weistroff <marc.weistroff@sensiolabs.com>
  */
 class Configuration implements ConfigurationInterface
 {
     public function getConfigTreeBuilder()
     {
-        if (method_exists(TreeBuilder::class, 'getRootNode')) {
-            $treeBuilder = new TreeBuilder('symfony_connect');
-            $rootNode = $treeBuilder->getRootNode();
-        } else {
-            $treeBuilder = new TreeBuilder();
-            $rootNode = $treeBuilder->root('symfony_connect');
-        }
+        $treeBuilder = new TreeBuilder('symfony_connect');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
                 ->scalarNode('app_id')->isRequired()->end()
                 ->scalarNode('app_secret')->isRequired()->end()
                 ->scalarNode('scope')->isRequired()->end()
-                ->scalarNode('oauth_callback_path')->defaultValue('/session/callback')->end()
                 ->scalarNode('oauth_endpoint')->defaultValue('https://connect.symfony.com')->end()
                 ->scalarNode('api_endpoint')->defaultValue('https://connect.symfony.com/api')->end()
-                ->scalarNode('timeout')->defaultValue(5)->end()
                 ->booleanNode('strict_checks')->defaultValue(true)->end()
             ->end()
         ;
