@@ -10,9 +10,12 @@
         "php": ">=7.1.3",
         "symfonycorp/connect": "^5.1|^6.0"
     },
+    "conflict": {
+        "symfony/config": "<4.2"
+    },
     "autoload": {
         "psr-4": {
-            "SymfonyCorp\\Bundle\\ConnectBundle\\": ""
+            "SymfonyCorp\\Bundle\\ConnectBundle\\": "src/"
         }
     },
     "extra": {

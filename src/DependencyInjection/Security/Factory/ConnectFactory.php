@@ -18,8 +18,6 @@ use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * ConnectFactory.
- *
  * @author Marc Weistroff <marc.weistroff@sensiolabs.com>
  */
 class ConnectFactory extends AbstractFactory

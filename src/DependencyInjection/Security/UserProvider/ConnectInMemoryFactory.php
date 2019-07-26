@@ -26,13 +26,13 @@ class ConnectInMemoryFactory implements UserProviderFactoryInterface
 {
     public function create(ContainerBuilder $container, $id, $config)
     {
-        $users = array();
+        $users = [];
         foreach ($config['users'] as $username => $roles) {
             $users[str_replace('_', '-', $username)] = $roles;
         }
 
         $definition = $container->setDefinition($id, $this->createChildDefinition('security.user.provider.symfony_connect_in_memory'));
-        $definition->setArguments(array($users));
+        $definition->setArguments([$users]);
     }
 
     public function getKey()
