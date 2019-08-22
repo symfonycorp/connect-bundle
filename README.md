@@ -16,7 +16,7 @@ $ composer require symfonycorp/connect-bundle
 ```
 
 If you're not using Symfony Flex, please take inspiration from
-[this bundle's recipe](//github.com/symfony/recipes-contrib/blob/master/symfony/connect-bundle/)
+[this bundle's recipe](https://github.com/symfony/recipes-contrib/blob/master/symfonycorp/connect-bundle/)
 to enable it.
 
 ### Step 2: Configure your `.env.local` file
