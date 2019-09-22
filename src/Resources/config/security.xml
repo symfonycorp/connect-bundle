@@ -39,6 +39,6 @@
             <tag name="controller.service_arguments" />
         </service>
 
-        <service id="SymfonyCorp\Bundle\ConnectBundle\Controller\OAuthController" alias="symfony_connect.oauth_controller" />
+        <service id="SymfonyCorp\Bundle\ConnectBundle\Controller\OAuthController" alias="symfony_connect.oauth_controller" public="true"/>
     </services>
 </container>
