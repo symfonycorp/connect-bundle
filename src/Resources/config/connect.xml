@@ -11,7 +11,7 @@
             <argument /> <!-- app secret -->
             <argument /> <!-- app scope -->
             <argument /> <!-- oauth endpoint -->
-            <argument type="service" id="http_client" />
+            <argument type="service" id="Symfony\Contracts\HttpClient\HttpClientInterface" />
             <argument type="service" id="logger" on-invalid="null" />
             <tag name="monolog.logger" channel="symfony_connect" />
         </service>
@@ -27,7 +27,7 @@
         <!-- Api -->
         <service id="symfony_connect.api" class="SymfonyCorp\Connect\Api\Api">
             <argument /> <!-- api endpoint -->
-            <argument type="service" id="http_client" />
+            <argument type="service" id="Symfony\Contracts\HttpClient\HttpClientInterface" />
             <argument type="service" id="symfony_connect.api.parser" />
             <argument type="service" id="logger" on-invalid="null" />
             <tag name="monolog.logger" channel="symfony_connect" />
