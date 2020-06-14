@@ -11,8 +11,10 @@
 
 namespace SymfonyCorp\Bundle\ConnectBundle;
 
+use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\Factory\AuthenticatorFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use SymfonyCorp\Bundle\ConnectBundle\DependencyInjection\Security\Factory\AuthenticatorConnectFactory;
 use SymfonyCorp\Bundle\ConnectBundle\DependencyInjection\Security\Factory\ConnectFactory;
 use SymfonyCorp\Bundle\ConnectBundle\DependencyInjection\Security\UserProvider\ConnectInMemoryFactory;
 use SymfonyCorp\Bundle\ConnectBundle\DependencyInjection\SymfonyConnectExtension;
@@ -35,8 +37,14 @@ class SymfonyConnectBundle extends Bundle
     {
         if ($container->hasExtension('security')) {
             $container->getExtension('symfony_connect')->enableSecurity();
-            $container->getExtension('security')->addSecurityListenerFactory(new ConnectFactory());
             $container->getExtension('security')->addUserProviderFactory(new ConnectInMemoryFactory());
+
+            if (interface_exists(AuthenticatorFactoryInterface::class)) {
+                $securityFactory = new AuthenticatorConnectFactory();
+            } else {
+                $securityFactory = new ConnectFactory();
+            }
+            $container->getExtension('security')->addSecurityListenerFactory($securityFactory);
         }
     }
 }

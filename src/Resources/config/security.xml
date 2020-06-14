@@ -40,5 +40,18 @@
         </service>
 
         <service id="SymfonyCorp\Bundle\ConnectBundle\Controller\OAuthController" alias="symfony_connect.oauth_controller" public="true" />
+
+        <service id="symfony_connect.authenticator" class="SymfonyCorp\Connect\Security\ConnectAuthenticator">
+            <argument type="service" id="symfony_connect.oauth_consumer" />
+            <argument type="service" id="symfony_connect.api" />
+            <argument /> <!-- user provider -->
+            <argument type="service" id="security.http_utils" />
+            <argument type="service" id="logger" />
+            <argument>symfony_connect_callback</argument>
+            <call method="setRethrowException">
+                <argument>%kernel.debug%</argument>
+            </call>
+        </service>
+
     </services>
 </container>
