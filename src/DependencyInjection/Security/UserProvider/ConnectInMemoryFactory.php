@@ -11,11 +11,11 @@
 
 namespace SymfonyCorp\Bundle\ConnectBundle\DependencyInjection\Security\UserProvider;
 
+use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\UserProvider\UserProviderFactoryInterface;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
-use Symfony\Bundle\SecurityBundle\DependencyInjection\Security\UserProvider\UserProviderFactoryInterface;
 
 /**
  * ConnectInMemoryFactory creates services for the memory provider.

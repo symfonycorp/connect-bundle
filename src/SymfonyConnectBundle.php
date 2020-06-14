@@ -11,10 +11,10 @@
 
 namespace SymfonyCorp\Bundle\ConnectBundle;
 
-use SymfonyCorp\Bundle\ConnectBundle\DependencyInjection\Security\Factory\ConnectFactory;
-use SymfonyCorp\Bundle\ConnectBundle\DependencyInjection\Security\UserProvider\ConnectInMemoryFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
+use SymfonyCorp\Bundle\ConnectBundle\DependencyInjection\Security\Factory\ConnectFactory;
+use SymfonyCorp\Bundle\ConnectBundle\DependencyInjection\Security\UserProvider\ConnectInMemoryFactory;
 use SymfonyCorp\Bundle\ConnectBundle\DependencyInjection\SymfonyConnectExtension;
 
 /**
