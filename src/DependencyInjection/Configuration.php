@@ -31,6 +31,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('scope')->isRequired()->end()
                 ->scalarNode('oauth_endpoint')->defaultValue('https://connect.symfony.com')->end()
                 ->scalarNode('api_endpoint')->defaultValue('https://connect.symfony.com/api')->end()
+                ->scalarNode('start_template')->defaultNull()->end()
                 ->booleanNode('strict_checks')->defaultValue(true)->end()
             ->end()
         ;

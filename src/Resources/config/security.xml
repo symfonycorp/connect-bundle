@@ -48,6 +48,8 @@
             <argument type="service" id="security.http_utils" />
             <argument type="service" id="logger" />
             <argument>symfony_connect_callback</argument>
+            <argument type="service" id="twig" on-invalid="null" />
+            <argument>%symfony_connect.api.start_template%</argument>
             <call method="setRethrowException">
                 <argument>%kernel.debug%</argument>
             </call>

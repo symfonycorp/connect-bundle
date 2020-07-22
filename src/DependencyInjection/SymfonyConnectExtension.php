@@ -60,5 +60,6 @@ class SymfonyConnectExtension extends Extension
 
         $container->setParameter('symfony_connect.api.app_id', $config['app_id']);
         $container->setParameter('symfony_connect.api.app_secret', $config['app_secret']);
+        $container->setParameter('symfony_connect.api.start_template', $config['start_template']);
     }
 }
